@@ -12,7 +12,7 @@ setup(
     author="Tracy Poff",
     author_email="tracy.poff@gmail.com",
     packages=['gamest_plugins.retroarch_identifier'],
-    install_requires=['gamest >=2.0, <3.0', 'pyraco'],
+    install_requires=['gamest >=3.0, <4.0', 'pyraco'],
     setup_requires=['setuptools_scm'],
     use_scm_version=True,
     classifiers=[
