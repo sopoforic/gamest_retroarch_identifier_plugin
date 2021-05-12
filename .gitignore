@@ -1,0 +1,5 @@
+__pycache__
+.eggs/
+gamest_retroarch_identifier_plugin.egg-info/
+build/
+dist/
