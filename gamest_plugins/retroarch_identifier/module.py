@@ -115,6 +115,8 @@ class RetroarchIdentifierPlugin(IdentifierPlugin):
         if not status:
             return None
 
+        if status.status == 'CONTENTLESS':
+            return None
         if status.status != 'PLAYING':
             self.logger.debug("Found a game, but status is not 'PLAYING': %r", status)
             return None
