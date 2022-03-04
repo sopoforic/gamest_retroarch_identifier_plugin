@@ -136,7 +136,7 @@ class RetroarchIdentifierPlugin(IdentifierPlugin):
             user_app = db.UserApp(
                 identifier_plugin=self.__class__.__name__,
                 identifier_data='crc32='+status.crc32,
-                app=db.App(name=status.game))
+                app=db.App(name=status.game, disambiguation=status.system))
             db.Session.add(user_app)
             self.logger.info("Automatically adding new app: %r", user_app)
             return (RetroarchProcess(status.crc32, self),
