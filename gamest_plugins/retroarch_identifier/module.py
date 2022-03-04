@@ -1,3 +1,5 @@
+import socket
+
 import pyraco
 
 from gamest import db
@@ -106,7 +108,7 @@ class RetroarchIdentifierPlugin(IdentifierPlugin):
     def identify_game(self):
         try:
             status = self._conn.get_status()
-        except (ConnectionRefusedError, ConnectionResetError):
+        except (ConnectionRefusedError, ConnectionResetError, socket.timeout):
             return None
         except Exception:
             self.logger.exception("Exception in identify_game.")
