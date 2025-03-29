@@ -3,6 +3,7 @@ import socket
 import pyraco
 
 from gamest import db
+from gamest.app import create_app, create_user_app
 from gamest.plugins import IdentifierPlugin
 
 
@@ -123,21 +124,23 @@ class RetroarchIdentifierPlugin(IdentifierPlugin):
             self.logger.debug("Found a game, but status is not 'PLAYING': %r", status)
             return None
 
-        app = db.Session.query(db.UserApp).\
+        user_app = db.Session.query(db.UserApp).\
             filter(
                 db.UserApp.identifier_plugin == self.__class__.__name__,
                 db.UserApp.identifier_data == 'crc32='+status.crc32).\
             first()
 
-        if app:
+        if user_app:
             self.logger.debug("Found app: %r", app)
-            return (RetroarchProcess(status.crc32, self), app)
+            return (RetroarchProcess(status.crc32, self), user_app)
         elif self.config.getboolean('auto_add', fallback=False):
-            user_app = db.UserApp(
+            app = create_app(
+                name=status.game,
+                disambiguation=status.system)
+            user_app = create_user_app(
+                app,
                 identifier_plugin=self.__class__.__name__,
-                identifier_data='crc32='+status.crc32,
-                app=db.App(name=status.game, disambiguation=status.system))
-            db.Session.add(user_app)
+                identifier_data=f'crc32={status.crc32}')
             self.logger.info("Automatically adding new app: %r", user_app)
             return (RetroarchProcess(status.crc32, self),
                     user_app)
