@@ -131,7 +131,7 @@ class RetroarchIdentifierPlugin(IdentifierPlugin):
             first()
 
         if user_app:
-            self.logger.debug("Found app: %r", app)
+            self.logger.debug("Found app: %r", user_app)
             return (RetroarchProcess(status.crc32, self), user_app)
         elif self.config.getboolean('auto_add', fallback=False):
             app = create_app(
